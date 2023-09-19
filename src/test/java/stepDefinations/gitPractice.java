@@ -9,10 +9,7 @@ public class gitPractice {
         System.out.println("testone");
     }
 
-    @Test
-    public void testtwo(){
-        System.out.println("testtwo");
-    }
+   
 
     @Test
     public void testtthree(){
