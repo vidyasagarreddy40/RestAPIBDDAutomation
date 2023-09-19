@@ -38,4 +38,8 @@ public class TestDataHelper {
     public String deletePlacePayLoad(String placeId){
         return "{\"place_id\":\""+placeId+"\"}";
     }
+
+    public void testing(){
+        System.out.println("sample method for repo branching practice");
+    }
 }
