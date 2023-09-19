@@ -14,4 +14,9 @@ public class gitPractice {
         System.out.println("testtwo");
     }
 
+    @Test
+    public void testtthree(){
+        System.out.println("testtthree");
+    }
+
 }
