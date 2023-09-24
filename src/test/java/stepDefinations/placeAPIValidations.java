@@ -1,14 +1,18 @@
 package stepDefinations;
 
+import DataReader.ExcelReader;
 import TestBase.TestBase;
 import TestDataHelper.TestDataHelper;
 import enums.APIResources;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 
 import static io.restassured.RestAssured.given;
@@ -20,9 +24,19 @@ public class placeAPIValidations extends TestBase {
     APIResources apiResources;
     static String place_Id;
 
+    public static Scenario scenario;
+    @Before
+    public void before(Scenario scenario){
+        this.scenario=scenario;
+    }
+
     @Given("Add place payload with {string} {string} {string}")
     public void add_place_payload_with(String name, String language, String address) {
        // responseSpecification();
+
+        ExcelReader excelReader = new ExcelReader();
+        excelReader.getData(scenario.getName());
+        scenario.getName();
         request = given().spec(requestSpecification()).
                 body(testDataHelper.addPlacePayLoad(name, language, address));
 
@@ -56,6 +70,8 @@ public class placeAPIValidations extends TestBase {
     public void verify_the_place_id_created_maps_to_using(String expectedName, String resource) {
 
         place_Id=getJSONPath(response.asString(),"place_id");
+        System.out.println(response.getTime());
+        response.then().time(Matchers.lessThan(1000L));
         request=given().spec(requestSpecification()).queryParam("place_id",place_Id);
         user_calls_with_http_request(resource,"GET");
         Assert.assertEquals(getJSONPath(response.asString(),"name"),expectedName);
